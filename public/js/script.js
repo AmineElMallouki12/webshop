@@ -23,10 +23,62 @@ function initializeCart() {
             e.preventDefault();
             e.stopPropagation();
             console.log('Cart icon clicked');
+            
+            // Close mobile navigation if open
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            if (mobileMenuToggle && nav && nav.classList.contains('active')) {
+                mobileMenuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
             cartSidebar.classList.toggle('show');
             const overlay = document.querySelector('.overlay');
             if (overlay) overlay.classList.toggle('active');
+            
+            // Prevent body scroll when cart is open on mobile
+            if (cartSidebar.classList.contains('show')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+            
             updateCartDisplay();
+        });
+        
+        // Add swipe to close functionality for mobile cart
+        let startX = 0;
+        let startY = 0;
+        
+        cartSidebar.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+        
+        cartSidebar.addEventListener('touchmove', function(e) {
+            if (!startX || !startY) return;
+            
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = startX - currentX;
+            const diffY = startY - currentY;
+            
+            // If horizontal swipe is greater than vertical and significant
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                // Swipe left to close cart
+                if (diffX > 0) {
+                    cartSidebar.classList.remove('show');
+                    const overlay = document.querySelector('.overlay');
+                    if (overlay) overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        cartSidebar.addEventListener('touchend', function() {
+            startX = 0;
+            startY = 0;
         });
     }
     
@@ -39,6 +91,7 @@ function initializeCart() {
             cartSidebar.classList.remove('show');
             const overlay = document.querySelector('.overlay');
             if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
         });
     }
     
@@ -52,6 +105,7 @@ function initializeCart() {
             cartSidebar.classList.remove('show');
             const overlay = document.querySelector('.overlay');
             if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
     
@@ -98,6 +152,14 @@ function initializeMobileNavigation() {
     
     if (mobileMenuToggle && nav) {
         mobileMenuToggle.addEventListener('click', function() {
+            // Close cart if open
+            const cartSidebar = document.querySelector('.cart-sidebar');
+            const overlay = document.querySelector('.overlay');
+            if (cartSidebar && cartSidebar.classList.contains('show')) {
+                cartSidebar.classList.remove('show');
+                if (overlay) overlay.classList.remove('active');
+            }
+            
             mobileMenuToggle.classList.toggle('active');
             nav.classList.toggle('active');
             document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
