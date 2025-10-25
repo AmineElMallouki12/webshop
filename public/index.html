@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Your One-Stop Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login-button.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ShopEase</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="admin/login.html" class="login-btn"><span>Login</span></a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon-wrapper">
+                <div class="cart-icon">
+                    🛒
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Welcome to ShopEase</h2>
+            <p>Discover amazing products at great prices</p>
+            <a href="products.html" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <!-- Products will be loaded dynamically from JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay -->
+    <div class="overlay"></div>
+    
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Shopping Cart</h2>
+            <button class="close-cart" aria-label="Close cart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="cart-items">
+            <div class="empty-cart">
+                Your cart is empty<br>
+                <small>Add some items to get started</small>
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Subtotal</span>
+                <span class="amount">$0.00</span>
+            </div>
+            <p class="shipping-note">Shipping & taxes calculated at checkout</p>
+            <button class="checkout-btn">
+                <span>Proceed to Checkout</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+            <div class="payment-methods">
+                <span>We accept:</span>
+                <div class="payment-icons">
+                    <span>💳</span>
+                    <span>📱</span>
+                    <span>💰</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particles for background animation -->
+    <div class="particles" id="particles"></div>
+
+    <!-- JavaScript -->
+    <script src="js/particles.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

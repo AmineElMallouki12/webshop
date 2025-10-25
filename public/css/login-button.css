@@ -1,0 +1,52 @@
+/* Login Button Styles */
+.login-btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    overflow: hidden;
+    border-radius: 20px;
+    height: 40px;
+    line-height: 20px;
+    text-align: center;
+    transition: all 0.4s ease;
+}
+
+.login-btn::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    filter: drop-shadow(0 15px 50px #000);
+    border-radius: 20px;
+    animation: rotating 4s linear infinite;
+    animation-delay: -1s;
+    background: linear-gradient(45deg, #ff0055, #00a2ff, #00ff8f, #f9f047);
+    background-size: 200% 200%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.login-btn:hover::before {
+    opacity: 1;
+}
+
+.login-btn::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: #2d2d39;
+    border-radius: 15px;
+    border: 8px solid #25252b;
+    z-index: -1;
+}
+
+@keyframes rotating {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

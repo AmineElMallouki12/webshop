@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MyWebshop</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background: #7f8c8d;
+            color: white;
+            border: none;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: rgba(30, 39, 46, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .modal {
+            display: none; /* Changed from display: none to be set by JavaScript */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+        
+        /* Compact Upload Button */
+        .image-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 92, 231, 0.2);
+            color: #a29bfe;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            transition: all 0.2s ease;
+            height: 36px;
+            box-sizing: border-box;
+        }
+        
+        .image-upload-btn:hover {
+            background: rgba(108, 92, 231, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .image-upload-btn:hover {
+            background: rgba(108, 92, 231, 0.3);
+            border-color: rgba(108, 92, 231, 0.5);
+        }
+        
+        .image-upload-btn input[type="file"] {
+            display: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(108, 92, 231, 0.2);
+            border-color: rgba(108, 92, 231, 0.5);
+            transform: translateY(-1px);
+        }
+        
+        /* Admin Header Styles */
+        .admin-header-nav {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            margin-bottom: 0;
+        }
+        
+        .admin-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .admin-nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header-nav">
+        <div class="admin-nav-content">
+            <div class="admin-logo">
+                <h1>Admin Dashboard</h1>
+            </div>
+            <div class="admin-nav-actions">
+                <a href="settings.html" class="btn btn-primary">Settings</a>
+                <a href="../index.html" class="btn btn-secondary">View Website</a>
+                <a href="login.html" class="btn btn-danger" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h2>Product Management</h2>
+            </div>
+            <div class="admin-actions">
+                <a href="#" class="btn btn-primary" id="addProductBtn">Add New Product</a>
+            </div>
+        </div>
+        
+        <div id="productsContainer" class="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+    
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modalTitle">Add New Product</h3>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price ($)</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productQuantity">Quantity</label>
+                    <input type="number" id="productQuantity" min="0" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 8px;">Product Image</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label for="imageUpload" class="image-upload-btn">
+                            Image
+                            <input type="file" id="imageUpload" accept="image/*" capture="environment" style="display: none;">
+                        </label>
+                        <div id="imagePreview" style="display: none; margin: 0;">
+                            <img id="previewImage" src="#" alt="Preview" style="width: 32px; height: 32px; border-radius: 4px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);">
+                        </div>
+                        <input type="hidden" id="productImage" name="productImage">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check if admin is logged in
+        if (!sessionStorage.getItem('adminLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+
+        // Initialize products array
+        let products = [];
+        
+        // API functions
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/admin/products');
+                if (response.ok) {
+                    products = await response.json();
+                    renderProducts();
+                } else {
+                    console.error('Failed to load products');
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+        
+        async function saveProduct(productData) {
+            try {
+                const url = productData.id ? `/api/admin/products/${productData.id}` : '/api/admin/products';
+                const method = productData.id ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.success;
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to save product');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                throw error;
+            }
+        }
+        
+        async function deleteProductFromServer(productId) {
+            try {
+                const response = await fetch(`/api/admin/products/${productId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.success;
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                throw error;
+            }
+        }
+        
+        // Function to initialize image upload
+        function setupImageUpload() {
+            const imageUpload = document.getElementById('imageUpload');
+            const previewImage = document.getElementById('previewImage');
+            const imagePreview = document.getElementById('imagePreview');
+            const productImageInput = document.getElementById('productImage');
+
+            if (imageUpload && previewImage && imagePreview && productImageInput) {
+                imageUpload.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const imageData = event.target.result;
+                            console.log('Image loaded successfully');
+                            previewImage.src = imageData;
+                            imagePreview.style.display = 'block';
+                            productImageInput.value = imageData;
+                            console.log('Image data set to hidden input');
+                        };
+                        reader.onerror = function(error) {
+                            console.error('Error reading file:', error);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                console.error('Image upload elements not found:', {
+                    imageUpload: !!imageUpload,
+                    previewImage: !!previewImage,
+                    imagePreview: !!imagePreview,
+                    productImageInput: !!productImageInput
+                });
+            }
+        }
+        
+        // Function to render products
+        function renderProducts() {
+            const productsContainer = document.getElementById('productsContainer');
+            if (!productsContainer) {
+                console.error('Could not find products container');
+                return;
+            }
+            
+            productsContainer.innerHTML = '';
+            
+            if (products.length === 0) {
+                productsContainer.innerHTML = '<p>No products found. Add your first product!</p>';
+                return;
+            }
+            
+            products.forEach((product, index) => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image || 'https://via.placeholder.com/200'}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <p>Stock: ${product.stock || 0}</p>
+                    <div class="product-actions">
+                        <button class="btn btn-primary" data-edit="${product.id}">Edit</button>
+                        <button class="btn btn-danger" data-delete="${product.id}">Delete</button>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+            
+            // Add event listeners for edit and delete buttons
+            document.querySelectorAll('[data-edit]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-edit');
+                    console.log('Edit button clicked for product ID:', id);
+                    editProduct(id);
+                });
+            });
+            
+            document.querySelectorAll('[data-delete]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.target.getAttribute('data-delete');
+                    console.log('Delete button clicked for product ID:', id);
+                    deleteProduct(id);
+                });
+            });
+        }
+        
+        function openModal(product = null) {
+            console.log('Opening modal...');
+            const modal = document.getElementById('productModal');
+            const form = document.getElementById('productForm');
+            
+            if (!form || !modal) {
+                console.error('Could not find product form or modal');
+                return;
+            }
+            
+            form.reset();
+            document.getElementById('productId').value = product ? product.id : '';
+            
+            // Reset image upload preview
+            const imagePreview = document.getElementById('imagePreview');
+            const imageUpload = document.getElementById('imageUpload');
+            const previewImage = document.getElementById('previewImage');
+            
+            if (imagePreview) imagePreview.style.display = 'none';
+            if (imageUpload) imageUpload.value = '';
+            
+            if (product) {
+                document.getElementById('modalTitle').textContent = 'Edit Product';
+                document.getElementById('productName').value = product.name || '';
+                document.getElementById('productPrice').value = product.price || '';
+                document.getElementById('productQuantity').value = product.stock || 1;
+                document.getElementById('productDescription').value = product.description || '';
+                
+                // Handle image preview for existing product
+                if (product.image && previewImage) {
+                    previewImage.src = product.image;
+                    imagePreview.style.display = 'block';
+                    document.getElementById('productImage').value = product.image;
+                }
+            } else {
+                document.getElementById('modalTitle').textContent = 'Add New Product';
+                // Clear image preview for new product
+                if (previewImage) {
+                    previewImage.src = '#';
+                }
+                if (document.getElementById('productImage')) {
+                    document.getElementById('productImage').value = '';
+                }
+            }
+            
+            // Show the modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+            }
+        }
+        
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            console.log('Form submitted!');
+            
+            // Get form values
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value.trim();
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productQuantity').value) || 0;
+            const description = document.getElementById('productDescription').value.trim();
+            const image = document.getElementById('productImage').value || 'https://via.placeholder.com/300x200?text=No+Image';
+            const category = 'General'; // Default category
+            
+            // Validate required fields
+            if (!name || isNaN(price) || price <= 0) {
+                alert('Please fill in all required fields with valid data');
+                return;
+            }
+            
+            console.log('Form values:', { id, name, price, stock, description, image, category });
+            
+            // Create product data object
+            const productData = {
+                name,
+                price,
+                stock,
+                description,
+                image,
+                category
+            };
+            
+            // Add ID if editing
+            if (id) {
+                productData.id = id;
+            }
+            
+            console.log('Product data to save:', productData);
+            
+            try {
+                const success = await saveProduct(productData);
+                
+                if (success) {
+                    // Show success message
+                    alert('Product saved successfully!');
+                    
+                    // Reset form and close modal
+                    document.getElementById('productForm').reset();
+                    
+                    // Clear the image preview
+                    const imagePreview = document.getElementById('imagePreview');
+                    const previewImage = document.getElementById('previewImage');
+                    const productImage = document.getElementById('productImage');
+                    if (imagePreview) imagePreview.style.display = 'none';
+                    if (previewImage) previewImage.src = '#';
+                    if (productImage) productImage.value = '';
+                    
+                    // Close the modal
+                    closeModal();
+                    
+                    // Refresh the products list
+                    await loadProducts();
+                } else {
+                    alert('Failed to save product. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                alert(`Error saving product: ${error.message}`);
+            }
+        }
+        
+        function editProduct(id) {
+            console.log('Looking for product with ID:', id);
+            console.log('Available products:', products);
+            
+            // Find the product by ID
+            const product = products.find(p => String(p.id) === String(id));
+            if (product) {
+                console.log('Found product:', product);
+                openModal(product);
+            } else {
+                console.error('Product not found with ID:', id);
+                alert('Product not found. Please refresh the page and try again.');
+            }
+        }
+        
+        async function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    const success = await deleteProductFromServer(id);
+                    
+                    if (success) {
+                        alert('Product deleted successfully!');
+                        await loadProducts(); // Refresh the products list
+                    } else {
+                        alert('Failed to delete product. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert(`Error deleting product: ${error.message}`);
+                }
+            }
+        }
+
+        // Initialize the application when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded, initializing...');
+            
+            // Load products from API
+            loadProducts();
+            
+            // Get all necessary DOM elements
+            const addProductBtn = document.getElementById('addProductBtn');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const productForm = document.getElementById('productForm');
+            const productModal = document.getElementById('productModal');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const productsContainer = document.getElementById('productsContainer');
+            
+            // Debug: Log all elements to ensure they're found
+            console.log('Elements found:', {
+                addProductBtn: !!addProductBtn,
+                closeModalBtn: !!closeModalBtn,
+                cancelBtn: !!cancelBtn,
+                productForm: !!productForm,
+                productModal: !!productModal,
+                logoutBtn: !!logoutBtn,
+                productsContainer: !!productsContainer
+            });
+            
+            // Setup image upload
+            setupImageUpload();
+            
+            // Add product button
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Add product button clicked');
+                    openModal();
+                });
+            } else {
+                console.error('Could not find addProductBtn');
+            }
+            
+            // Close modal button
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+            } else {
+                console.error('Could not find closeModalBtn');
+            }
+            
+            // Cancel button
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeModal);
+            } else {
+                console.error('Could not find cancelBtn');
+            }
+            
+            // Form submission
+            if (productForm) {
+                productForm.addEventListener('submit', handleFormSubmit);
+            } else {
+                console.error('Could not find productForm');
+            }
+            
+            // Logout functionality
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('adminLoggedIn');
+                    window.location.href = 'login.html';
+                });
+            }
+            
+            // Close modal when clicking outside
+            if (productModal) {
+                window.addEventListener('click', function(e) {
+                    if (e.target === productModal) {
+                        closeModal();
+                    }
+                });
+            }
+            
+            // Initial render
+            renderProducts();
+            console.log('Initialization complete');
+        });
+        
+    </script>
+
+    <footer>
+        <p>&copy; 2023 MyWebshop. All rights reserved.</p>
+    </footer>
+</body>
+</html>

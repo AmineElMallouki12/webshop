@@ -1,0 +1,22 @@
+{
+  "name": "webshop",
+  "version": "1.0.0",
+  "description": "Webshop with SQLite database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init-db": "node public/database/init-db.js",
+    "seed-db": "node public/database/seed-products.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

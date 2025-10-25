@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - ShopEase</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ShopEase</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="admin/login.html" class="login-btn"><span>Login</span></a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon-wrapper">
+                <div class="cart-icon">
+                    🛒
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="contact-page">
+        <div class="contact-hero">
+            <div class="container">
+                <h1>Get in Touch</h1>
+                <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            </div>
+        </div>
+
+        <div class="contact-content">
+            <div class="container">
+                <div class="contact-grid">
+                    <!-- Contact Information -->
+                    <div class="contact-info-section">
+                        <div class="contact-card">
+                            <h2>Contact Information</h2>
+                            <p>Have questions or feedback? We're here to help!</p>
+                            
+                            <div class="contact-methods">
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h3>Email Us</h3>
+                                        <p>info@shopease.com</p>
+                                        <span>We'll respond within 24 hours</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h3>Call Us</h3>
+                                        <p>(123) 456-7890</p>
+                                        <span>Mon-Fri 9AM-6PM EST</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h3>Visit Us</h3>
+                                        <p>123 Shop Street<br>Commerce City, CC 12345</p>
+                                        <span>Open Mon-Fri 9AM-6PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="contact-form-section">
+                        <div class="contact-form-card">
+                            <h2>Send us a Message</h2>
+                            <form class="contact-form" id="contactForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" id="firstName" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" name="lastName" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <select id="subject" name="subject" required>
+                                        <option value="">Select a subject</option>
+                                        <option value="general">General Inquiry</option>
+                                        <option value="support">Technical Support</option>
+                                        <option value="order">Order Question</option>
+                                        <option value="return">Returns & Exchanges</option>
+                                        <option value="feedback">Feedback</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                                </div>
+                                
+                                <div class="form-group checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="newsletter" name="newsletter">
+                                        <span class="checkmark"></span>
+                                        Subscribe to our newsletter for updates and special offers
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="submit-btn">
+                                    <span>Send Message</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="overlay"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            Total: $0.00
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+
+    <!-- Particles for background animation -->
+    <div class="particles" id="particles"></div>
+
+    <!-- JavaScript -->
+    <script src="js/particles.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
