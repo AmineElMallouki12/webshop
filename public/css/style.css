@@ -1937,7 +1937,9 @@ footer {
     }
 
     nav ul li a {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding: 1rem 1.5rem;
         border-radius: 8px;
         text-align: center;
@@ -1950,6 +1952,7 @@ footer {
         margin: 0.25rem 0;
         position: relative;
         overflow: hidden;
+        min-height: 48px;
     }
 
     nav ul li a::before {
@@ -1988,6 +1991,10 @@ footer {
         text-transform: none;
         letter-spacing: normal;
         border: 1px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
     }
 
     nav ul li a.login-btn:hover,
@@ -2205,6 +2212,43 @@ footer {
         margin: 1rem;
         max-height: 90vh;
         overflow-y: auto;
+        border-radius: 12px;
+    }
+    
+    .product-details-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .product-details-image {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .product-details-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    .product-details-info {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .product-details-specs {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .spec-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        background: rgba(108, 92, 231, 0.1);
+        border-radius: 6px;
     }
 
     .form-group input,
@@ -2257,5 +2301,30 @@ footer {
     .modal-content {
         width: 98%;
         margin: 0.5rem;
+        border-radius: 8px;
+    }
+    
+    .product-details-content {
+        gap: 0.5rem;
+    }
+    
+    .product-details-image img {
+        max-height: 200px;
+        object-fit: cover;
+    }
+    
+    .spec-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .spec-label {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .spec-value {
+        color: var(--text-color);
     }
 }
