@@ -116,22 +116,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
         
         @media (max-width: 768px) {
             .admin-login-nav {
                 padding: 0 1rem;
-                flex-direction: column;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
                 gap: 1rem;
             }
             
             .admin-login-logo h1 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+            }
+            
+            .back-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
             
             .login-container {
                 margin: 2rem 1rem;
                 padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .admin-login-nav {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .admin-login-logo h1 {
+                font-size: 1.1rem;
+            }
+            
+            .back-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
         
@@ -144,6 +169,27 @@
         .admin-login-actions {
             display: flex;
             gap: 1rem;
+        }
+        
+        .back-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 69, 255, 0.3);
         }
     </style>
 </head>
