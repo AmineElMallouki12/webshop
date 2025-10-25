@@ -2055,8 +2055,26 @@ footer {
     }
     
     /* Ensure all mobile sections have dark theme */
-    .hero, .contact-hero, .products-section, .checkout-container {
+    .contact-hero, .products-section, .checkout-container {
         background: transparent !important;
+    }
+    
+    /* Mobile hero section - keep desktop background and add animation */
+    .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1920x600') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        animation: heroBackgroundShift 8s ease-in-out infinite;
+    }
+    
+    @keyframes heroBackgroundShift {
+        0%, 100% {
+            background-position: center center;
+        }
+        50% {
+            background-position: center 30%;
+        }
     }
 
     /* Hero section */
@@ -2066,11 +2084,39 @@ footer {
 
     .hero h2 {
         font-size: 2rem;
+        animation: heroTextFade 6s ease-in-out infinite;
     }
 
     .hero p {
         font-size: 1rem;
         margin-bottom: 2rem;
+        animation: heroTextFade 6s ease-in-out infinite 1s;
+    }
+    
+    .hero .btn {
+        animation: heroButtonPulse 4s ease-in-out infinite 2s;
+    }
+    
+    @keyframes heroTextFade {
+        0%, 100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        50% {
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+    }
+    
+    @keyframes heroButtonPulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.5);
+        }
     }
 
     /* Product grid mobile */
@@ -2334,6 +2380,15 @@ footer {
 
     .hero h2 {
         font-size: 1.8rem;
+        animation: heroTextFade 6s ease-in-out infinite;
+    }
+    
+    .hero p {
+        animation: heroTextFade 6s ease-in-out infinite 1s;
+    }
+    
+    .hero .btn {
+        animation: heroButtonPulse 4s ease-in-out infinite 2s;
     }
 
     .product-grid {
