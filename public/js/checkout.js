@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart
     initializeCart();
     
+    // Initialize mobile navigation
+    initializeMobileNavigation();
+    
     // Load cart items and display them
     loadOrderSummary();
     
@@ -14,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle place order button
     handlePlaceOrder();
+    
+    // Handle back to cart button
+    handleBackToCart();
 });
 
 function loadOrderSummary() {
@@ -79,12 +85,12 @@ function loadOrderSummary() {
 }
 
 function handlePaymentMethodChange() {
-    const paymentOptions = document.querySelectorAll('input[name="payment"]');
+    const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
     const bankDetailsSection = document.getElementById('bankDetailsSection');
     
     paymentOptions.forEach(option => {
         option.addEventListener('change', function() {
-            if (this.value === 'bank-transfer') {
+            if (this.value === 'bankTransfer') {
                 bankDetailsSection.style.display = 'block';
             } else {
                 bankDetailsSection.style.display = 'none';
@@ -98,7 +104,7 @@ function handlePlaceOrder() {
     
     placeOrderBtn.addEventListener('click', function() {
         // Get selected payment method
-        const selectedPayment = document.querySelector('input[name="payment"]:checked');
+        const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
         
         if (!selectedPayment) {
             alert('Please select a payment method');
@@ -106,7 +112,7 @@ function handlePlaceOrder() {
         }
         
         // Validate bank details if bank transfer is selected
-        if (selectedPayment.value === 'bank-transfer') {
+        if (selectedPayment.value === 'bankTransfer') {
             if (!validateBankDetails()) {
                 return;
             }
@@ -121,7 +127,7 @@ function validateBankDetails() {
     const bankName = document.getElementById('bankName').value;
     const accountNumber = document.getElementById('accountNumber').value;
     const routingNumber = document.getElementById('routingNumber').value;
-    const accountHolder = document.getElementById('accountHolder').value;
+    const accountHolder = document.getElementById('accountHolderName').value;
     const billingAddress = document.getElementById('billingAddress').value;
     
     if (!bankName || !accountNumber || !routingNumber || !accountHolder || !billingAddress) {
@@ -277,4 +283,61 @@ function updateCartDisplay() {
     
     cartItemsContainer.innerHTML = itemsHTML;
     if (cartTotal) cartTotal.textContent = `$${total.toFixed(2)}`;
+}
+
+// Handle back to cart button
+function handleBackToCart() {
+    const backToCartBtn = document.getElementById('backToCartBtn');
+    
+    if (backToCartBtn) {
+        backToCartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Back to cart clicked');
+            window.location.href = 'products.html';
+        });
+    }
+}
+
+// Mobile Navigation (copied from script.js)
+function initializeMobileNavigation() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.querySelector('nav');
+    
+    if (mobileMenuToggle && nav) {
+        mobileMenuToggle.addEventListener('click', function() {
+            // Close cart if open
+            const cartSidebar = document.querySelector('.cart-sidebar');
+            const overlay = document.querySelector('.overlay');
+            if (cartSidebar && cartSidebar.classList.contains('show')) {
+                cartSidebar.classList.remove('show');
+                if (overlay) overlay.classList.remove('active');
+            }
+            
+            mobileMenuToggle.classList.toggle('active');
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const isClickInsideNav = nav.contains(e.target);
+            const isClickOnToggle = mobileMenuToggle.contains(e.target);
+            
+            if (!isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
+                mobileMenuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 }
